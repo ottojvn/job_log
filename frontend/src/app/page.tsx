@@ -1,21 +1,21 @@
-import { JobCard } from '@/components/JobCard'
+import { ApplicationCard } from '@/components/ApplicationCard'
 import { getAll } from '@/services/api'
 
 export default async function Home() {
-  const jobs = await getAll()
+  const applications = await getAll()
 
   return (
     <div>
-      <h1>Job Application Tracker</h1>
-      <h2>All Job Applications</h2>
+      <h1>Job Tracker</h1>
+      <h2>All Applications</h2>
       {
-        jobs.map((job) =>
-          <JobCard
-            key={job.id}
-            title={job.title}
-            company={job.company}
-            status={job.status}
-            appliedAt={job.appliedAt} />
+        applications.map((application) =>
+          <ApplicationCard
+            key={application.id}
+            title={application.title}
+            company={application.company}
+            status={application.status}
+            appliedAt={application.appliedAt} />
         )
       }
     </div>

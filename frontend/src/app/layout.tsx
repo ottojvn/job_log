@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Job Application Tracker",
-  description: "Tracks job applications",
+  title: "Job Tracker",
+  description: "Tracks applications",
 };
 
 export default function RootLayout({

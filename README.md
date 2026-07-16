@@ -1,4 +1,4 @@
-# Job Log
+# Job Tracker
 
 Rastreio de candidaturas a vagas de emprego, para facilitar o controle de processos seletivos
 

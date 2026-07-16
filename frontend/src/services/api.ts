@@ -1,22 +1,22 @@
-import Job from '@/types/job'
+import Application from '@/types/application'
 
-const baseUrl = process.env.API_URL
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
-export const getAll = async (): Promise<Job[]> => {
-  const res = await fetch(`${baseUrl}/jobs`)
+export const getAll = async (): Promise<Application[]> => {
+  const res = await fetch(`${baseUrl}/applications`, { cache: 'no-store' })
 
   if (!res.ok) {
-    throw new Error('GET /jobs failure')
+    throw new Error('GET /applications failure')
   }
 
   return res.json()
 }
 
-export const getById = async (id: string): Promise<Job> => {
-  const res = await fetch(`${baseUrl}/jobs/${id}`)
+export const getById = async (id: string): Promise<Application> => {
+  const res = await fetch(`${baseUrl}/applications/${id}`, { cache: 'no-store' })
 
   if (!res.ok) {
-    throw new Error(`GET /jobs/${id} failure`)
+    throw new Error(`GET /applications/${id} failure`)
   }
 
   return res.json()

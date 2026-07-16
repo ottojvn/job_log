@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import { jobRoutes } from './routes/job.routes.js'
+import { applicationRoutes } from './routes/application.routes.js'
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
-server.use(jobRoutes);
+server.use(applicationRoutes);
 
 const port = 3000;
 server.listen(port, () => {
