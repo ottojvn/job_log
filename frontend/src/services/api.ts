@@ -81,3 +81,51 @@ export const create = async (data: CreateApplicationInput): Promise<Application>
 
   return res.json()
 }
+
+export const remove = async (id: string): Promise<Application> => {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('User not authenticated');
+  }
+
+  const res = await fetch(`${baseUrl}/applications/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'x-api-key': API_KEY,
+      'x-user-id': String(userId)
+    }
+  })
+
+  if (!res.ok) {
+    throw new Error(`DELETE /applications/${id} failure`)
+  }
+
+  return res.json();
+}
+
+export const update = async (id: string, data: Partial<CreateApplicationInput>): Promise<Application> => {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error('User not authenticated');
+  }
+
+  const res = await fetch(`${baseUrl}/applications/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY,
+      'x-user-id': String(userId)
+    },
+    body: JSON.stringify(data)
+  })
+
+  if (!res.ok) {
+    throw new Error(`PATCH /applications/${id} failure`)
+  }
+
+  return res.json()
+}

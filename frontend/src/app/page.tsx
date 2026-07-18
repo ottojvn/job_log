@@ -30,6 +30,7 @@ export default async function Home() {
           applications.map((application) =>
             <ApplicationCard
               key={application.id}
+              id={application.id}
               title={application.title}
               company={application.company}
               status={application.status}
