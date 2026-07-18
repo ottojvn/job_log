@@ -21,3 +21,21 @@ export const getById = async (id: string): Promise<Application> => {
 
   return res.json()
 }
+
+type CreateApplicationInput = Omit<Application, 'id' | 'createdAt' | 'updatedAt'>;
+
+export const create = async (data: CreateApplicationInput): Promise<Application> => {
+  const res = await fetch(`${baseUrl}/applications`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...data })
+  })
+
+  if (!res.ok) {
+    throw new Error('POST /applications failure')
+  }
+
+  return res.json()
+}
