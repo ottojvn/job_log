@@ -2,12 +2,16 @@
 
 import { create } from '@/services/api';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export const ApplicationForm = () => {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
   const handleSubmit = async (formData: FormData) => {
+    setIsLoading(true);
+    setMessage('');
     const applicationData = {
       title: formData.get('title') as string,
       company: formData.get('company') as string,
@@ -19,10 +23,12 @@ export const ApplicationForm = () => {
       await create(applicationData);
       router.refresh();
       formRef.current?.reset();
-      alert('Application logged');
+      setMessage('Application logged');
     } catch (error) {
       console.error('Error logging application:', error);
-      alert('Failed to log application');
+      setMessage('Failed to log application');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -37,6 +43,7 @@ export const ApplicationForm = () => {
             htmlFor='application-title'
             className='text-sm font-semibold text-neutral-700 dark:text-neutral-300'>Title</label>
           <input
+            required
             type='text'
             name='title'
             id='application-title'
@@ -47,6 +54,7 @@ export const ApplicationForm = () => {
             htmlFor='application-company'
             className='text-sm font-semibold text-neutral-700 dark:text-neutral-300'>Company</label>
           <input
+            required
             type='text'
             name='company'
             id='application-company'
@@ -71,15 +79,24 @@ export const ApplicationForm = () => {
             htmlFor='application-appliedAt'
             className='text-sm font-semibold text-neutral-700 dark:text-neutral-300'>Applied At</label>
           <input
+            required
             type='date'
             name='appliedAt'
             id='application-appliedAt'
             className='w-full p-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent focus:ring-2 focus:ring-blue-600 outline-none transition' />
         </div>
         <button
+          disabled={isLoading}
           type='submit'
           className='mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors'
-        >Log</button>
+        >{isLoading ? 'Logging' : 'Log'}</button>
+        {
+          message && (
+            <p className='mt-2 text-sm text-neutral-700 dark:text-neutral-300'>
+              {message}
+            </p>
+          )
+        }
       </form >
     </div >
   )
