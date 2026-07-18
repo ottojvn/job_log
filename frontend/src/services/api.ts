@@ -1,11 +1,12 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import Application from '@/types/application'
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from '@/lib/auth';
 import { getServerSession } from "next-auth/next";
 
 const API_KEY = process.env.API_KEY as string;
-const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const baseUrl = process.env.INTERNAL_API_URL;
 
 export const getAll = async (): Promise<Application[]> => {
   const session = await getServerSession(authOptions);
@@ -79,6 +80,7 @@ export const create = async (data: CreateApplicationInput): Promise<Application>
     throw new Error('POST /applications failure')
   }
 
+  revalidatePath('/');
   return res.json()
 }
 
@@ -102,6 +104,7 @@ export const remove = async (id: string): Promise<Application> => {
     throw new Error(`DELETE /applications/${id} failure`)
   }
 
+  revalidatePath('/');
   return res.json();
 }
 
@@ -127,5 +130,6 @@ export const update = async (id: string, data: Partial<CreateApplicationInput>):
     throw new Error(`PATCH /applications/${id} failure`)
   }
 
+  revalidatePath('/');
   return res.json()
 }
